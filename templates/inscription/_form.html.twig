@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="d-flex mt-4">
+        <button class="btn btn-sm btn-primary me-4">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-sm btn-secondary" href="{{ path('app_inscription_index') }}">Retour au listing</a>
+    </div>
+{{ form_end(form) }}

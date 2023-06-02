@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une inscription{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex mb-4">
+            <img src="{{ asset('images/banner.jpeg') }}" alt="image_simplon" height="80">
+            <h1 class="mt-5 ms-5">Modifier les informations d'une inscription</h1>
+        </div>
+        <div class="row">
+            {{ include('inscription/_form.html.twig', {'button_label': 'Modifier'}) }}
+        </div>
+    </div>
+{% endblock %}

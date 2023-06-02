@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des inscrits{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex mb-4">
+            <img src="{{ asset('images/banner.jpeg') }}" alt="image_simplon" height="80">
+            <h1 class="mt-5 ms-5">Liste de présence</h1>
+        </div>
+
+        <table class="table table-responsive table-striped table-bordered text-center">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Prénoms</th>
+                <th>Numéro de téléphone</th>
+                <th>Email</th>
+                <th>Date d'inscription</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for inscription in inscriptions %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ inscription.nom }}</td>
+                    <td>{{ inscription.prenoms }}</td>
+                    <td>{{ inscription.telephone }}</td>
+                    <td>{{ inscription.email }}</td>
+                    <td>{{ inscription.dateInscription ? inscription.dateInscription|date('d-m-Y H:i:s') : '' }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="{{ path('app_inscription_edit', {'id': inscription.id}) }}">Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{{ path('app_inscription_delete', {'id': inscription.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun enregistrement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-sm btn-secondary" href="{{ path('app_inscription_new') }}">Faire une inscription</a>
+    </div>
+{% endblock %}

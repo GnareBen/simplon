@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle inscription{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex mb-4">
+            <img src="{{ asset('images/banner.jpeg') }}" alt="image_simplon" height="80">
+            <h1 class="mt-5 text-uppercase ms-5">Nouvelle inscription</h1>
+        </div>
+        <div class="row">
+            {{ include('inscription/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
