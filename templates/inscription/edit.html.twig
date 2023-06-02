@@ -9,7 +9,13 @@
             <h1 class="mt-5 ms-5">Modifier les informations d'une inscription</h1>
         </div>
         <div class="row">
-            {{ include('inscription/_form.html.twig', {'button_label': 'Modifier'}) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ include('inscription/_form.html.twig', {'button_label': 'Modifier'}) }}
+                </div>
+                <div class="col-6">
+                    <img src="{{ asset('images/personnes.jpg') }}" alt="image_simplon" height="350">
+                </div>
         </div>
     </div>
 {% endblock %}

@@ -26,7 +26,7 @@ class Inscription
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $date_inscription = null;
+    private ?\DateTime $date_inscription = null;
 
     public function getId(): ?int
     {
@@ -81,12 +81,12 @@ class Inscription
         return $this;
     }
 
-    public function getDateInscription(): ?\DateTimeImmutable
+    public function getDateInscription(): \DateTime
     {
         return $this->date_inscription;
     }
 
-    public function setDateInscription(\DateTimeImmutable $date_inscription): self
+    public function setDateInscription(\DateTime $date_inscription): self
     {
         $this->date_inscription = $date_inscription;
 

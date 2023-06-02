@@ -9,7 +9,12 @@
             <h1 class="mt-5 text-uppercase ms-5">Nouvelle inscription</h1>
         </div>
         <div class="row">
-            {{ include('inscription/_form.html.twig') }}
+            <div class="col-6">
+                {{ include('inscription/_form.html.twig') }}
+            </div>
+            <div class="col-6">
+                <img src="{{ asset('images/personnes.jpg') }}" alt="image_simplon" height="350">
+            </div>
         </div>
     </div>
 {% endblock %}

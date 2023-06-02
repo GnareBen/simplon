@@ -9,6 +9,8 @@
             <h1 class="mt-5 ms-5">Liste de présence</h1>
         </div>
 
+        <a class="mb-4 btn btn-sm btn-secondary" href="{{ path('app_inscription_new') }}">Faire une inscription</a>
+
         <table class="table table-responsive table-striped table-bordered text-center">
             <thead>
             <tr>
@@ -18,7 +20,7 @@
                 <th>Numéro de téléphone</th>
                 <th>Email</th>
                 <th>Date d'inscription</th>
-                <th>actions</th>
+                <th>action</th>
             </tr>
             </thead>
             <tbody>
@@ -32,7 +34,6 @@
                     <td>{{ inscription.dateInscription ? inscription.dateInscription|date('d-m-Y H:i:s') : '' }}</td>
                     <td>
                         <a class="btn btn-sm btn-primary" href="{{ path('app_inscription_edit', {'id': inscription.id}) }}">Modifier</a>
-                        <a class="btn btn-sm btn-danger" href="{{ path('app_inscription_delete', {'id': inscription.id}) }}">Supprimer</a>
                     </td>
                 </tr>
             {% else %}
@@ -41,8 +42,11 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
 
-        <a class="btn btn-sm btn-secondary" href="{{ path('app_inscription_new') }}">Faire une inscription</a>
+        </table>
+        <div class="mt-4 mb-3">
+            {{ knp_pagination_render(inscriptions, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
+            <a class="me-4 btn btn-sm btn-secondary" href="{{ path('app_inscription_new') }}">Faire une inscription</a>
+        </div>
     </div>
 {% endblock %}

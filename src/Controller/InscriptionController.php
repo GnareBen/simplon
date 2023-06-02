@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Inscription;
 use App\Form\InscriptionType;
 use App\Repository\InscriptionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,14 +15,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class InscriptionController extends AbstractController
 {
     #[Route('/', name: 'app_inscription_index', methods: ['GET'])]
-    public function index(InscriptionRepository $inscriptionRepository): Response
+    public function index(InscriptionRepository $inscriptionRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $inscriptions = $paginator->paginate(
+            $inscriptionRepository->findBy([], ['date_inscription' => 'DESC']),
+            $request->query->getInt('page', 1),
+            20
+        );
         return $this->render('inscription/index.html.twig', [
-            'inscriptions' => $inscriptionRepository->findAll(),
+            'inscriptions' => $inscriptions,
         ]);
     }
 
-    #[Route('/new', name: 'app_inscription_new', methods: ['GET', 'POST'])]
+    #[Route('/nouvelle-inscription', name: 'app_inscription_new', methods: ['GET', 'POST'])]
     public function new(Request $request, InscriptionRepository $inscriptionRepository): Response
     {
         $inscription = new Inscription();
@@ -29,27 +35,19 @@ class InscriptionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $inscription->setDateInscription(new \DateTimeImmutable());
+            $inscription->setDateInscription(new \DateTime());
             $inscriptionRepository->save($inscription, true);
 
             return $this->redirectToRoute('app_inscription_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('inscription/new.html.twig', [
+        return $this->render('inscription/new.html.twig', [
             'inscription' => $inscription,
             'form' => $form,
         ]);
     }
 
-//    #[Route('/{id}', name: 'app_inscription_show', methods: ['GET'])]
-//    public function show(Inscription $inscription): Response
-//    {
-//        return $this->render('inscription/show.html.twig', [
-//            'inscription' => $inscription,
-//        ]);
-//    }
-
-    #[Route('/{id}/edit', name: 'app_inscription_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edition', name: 'app_inscription_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Inscription $inscription, InscriptionRepository $inscriptionRepository): Response
     {
         $form = $this->createForm(InscriptionType::class, $inscription);
@@ -61,19 +59,9 @@ class InscriptionController extends AbstractController
             return $this->redirectToRoute('app_inscription_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('inscription/edit.html.twig', [
+        return $this->render('inscription/edit.html.twig', [
             'inscription' => $inscription,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{id}', name: 'app_inscription_delete', methods: ['POST'])]
-    public function delete(Request $request, Inscription $inscription, InscriptionRepository $inscriptionRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$inscription->getId(), $request->request->get('_token'))) {
-            $inscriptionRepository->remove($inscription, true);
-        }
-
-        return $this->redirectToRoute('app_inscription_index', [], Response::HTTP_SEE_OTHER);
     }
 }
